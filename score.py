@@ -1,8 +1,6 @@
 import os
-import torch
 import numpy as np
 import matplotlib.pyplot as plt
-import seaborn as sns
 import pandas as pd
 import argparse
 
@@ -62,12 +60,13 @@ def plot_results(df, limit, file_path):
 
     # Create a scatter plot for the top 5 similarities
     plt.figure(figsize=(12, 8))  # Increase the figure size for more room
-    plt.scatter(top_k_df['Text'], top_k_df['Similarity'], color='blue', s=100)
+    plt.scatter(top_k_df['Text'].str[:30],
+                top_k_df['Similarity'], color='blue', s=100)
 
     # Add titles and labels
     plt.title(
         'Top Cosine Similarities between Input Vector and Reference', fontsize=16)
-    plt.xlabel('Sentences', fontsize=14)
+    plt.xlabel('References', fontsize=14)
     plt.ylabel('Cosine Similarity', fontsize=14)
 
     # Rotate x labels and add padding
@@ -102,7 +101,7 @@ if __name__ == "__main__":
     parser.add_argument("--text", "-t", type=str,
                         required=True, help="Input text to compare")
     parser.add_argument("--limit", "-l", type=int, default=1,
-                        help="Number of similar sentences to display")
+                        help="Number of similarities to display")
     parser.add_argument("--plot_file", "-f", type=str,
                         help="File path to save the plot")
     args = parser.parse_args()
