@@ -3,8 +3,9 @@ import torch
 import pandas as pd
 
 # Load pre-trained model and tokenizer
-model_name = "microsoft/deberta-v3-small"
-tokenizer = AutoTokenizer.from_pretrained(model_name)
+model_name = "bert-base-uncased"
+tokenizer = AutoTokenizer.from_pretrained(
+    model_name, clean_up_tokenization_spaces=True)
 model = AutoModel.from_pretrained(model_name)
 
 source_file = "data/random_sentences.csv"
@@ -21,8 +22,12 @@ def read_file(file_path):
 def vectorize(text):
     """ Vectorize input text using pre-trained model """
 
-    inputs = tokenizer(text, return_tensors="pt",
-                       padding=True, truncation=True)
+    inputs = tokenizer(
+        text,
+        return_tensors="pt",
+        padding=True,
+        truncation=True,
+    )
     outputs = model(**inputs)
     embeddings = torch.mean(
         outputs.last_hidden_state, dim=1).detach().numpy()
