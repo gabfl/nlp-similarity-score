@@ -1,0 +1,14 @@
+# Mac OS hidden files
+.DS_Store
+
+venv/
+
+# Python
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Auto-generated files
+data/similarity_plot.png
+data/df.pkl

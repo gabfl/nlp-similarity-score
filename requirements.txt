@@ -1,0 +1,8 @@
+transformers==4.44.*
+sentencepiece==0.2.*
+torch==2.4.*
+numpy
+matplotlib==3.9.*
+seaborn==0.13.*
+pandas
+protobuf==5.28.*
