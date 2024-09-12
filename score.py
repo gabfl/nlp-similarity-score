@@ -30,6 +30,21 @@ def cosine_similarity(v1, v2):
 
     return dot_product / (norm_v1 * norm_v2)
 
+def jaccard_similarity(v1,v2):
+    """ Compute the Jaccard similarity between two vectors """
+    set1 = set(v1)
+    set2 = set(v2)
+    intersection = len(set1.intersection(set2))
+    union = len(set1.union(set2))
+    return intersection / union
+
+def manhattan_similarity(v1, v2):
+    """ Compute the Manhattan similarity between two vectors """
+    max_distance = sum(max(x, y) for x, y in zip(v1, v2))
+    distance = sum(abs(x - y) for x, y in zip(v1, v2))
+    return 1 - (distance / max_distance)
+
+
 
 def compare_vectors(vectors, df):
     """ Compare vectors with the vectors from the dataframe and keep top X """
