@@ -10,7 +10,7 @@ This project demonstrates how to calculate similarity scores between sentences u
 
  - *Sentence Vectorization:* Reads sentences from `data/random_sentences.csv` and vectorizes them using a pre-trained NLP model.
  - *Efficient Storage:* Vectors and metadata are stored in a pickled Pandas DataFrame, making the implementation lightweight and fast. This can be replaced with a vector database for scalability.
- - *Similarity Search:* Allows you to search for sentences similar to a given input sentence using cosine similarity.
+ - *Similarity Search:* Allows you to search for sentences similar to a given input sentence using various distance measures, including cosine similarity, Jaccard similarity, and Manhattan distance.
  - *Visualization:* Generates a scatter plot to visualize similarity scores between sentences.
 
 ![Scatter Plot](img/similarity_plot.png "Scatter Plot")
@@ -34,7 +34,7 @@ DataFrame saved to `data/df.pkl`
 ### Perform a Similarity Search
 
 ```bash
-$ python3 score.py -t "I don't like snow" -l 3
+$ python3 score.py -t "I don't like snow" -l 3 -m cosine
     RowID                       Text Metadata                                            vectors  Similarity
 21  id-22         I don't like rain.    md-22  [-0.41069135, -0.036516473, 0.1366242, 0.07364...    0.976623
 46  id-47  I have 60 pairs of shoes.    md-47  [-0.5448569, 0.07107707, 0.35270178, -0.047913...    0.915285

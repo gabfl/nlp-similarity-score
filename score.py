@@ -128,7 +128,7 @@ if __name__ == "__main__":
     parser.add_argument("--plot_file", "-f", type=str,
                         help="File path to save the plot")
     parser.add_argument("--metric", "-m", type=str, default="cosine",
-                        help="Similarity metric to use (cosine, jaccard, manhattan)")
+                        help="Similarity metric to use (%s)" % ', '.join(metrics))
 
     args = parser.parse_args()
 
