@@ -1,3 +1,5 @@
+import os
+
 from transformers import AutoModel, AutoTokenizer
 import torch
 import pandas as pd
@@ -8,8 +10,9 @@ tokenizer = AutoTokenizer.from_pretrained(
     model_name, clean_up_tokenization_spaces=True)
 model = AutoModel.from_pretrained(model_name)
 
-source_file = "data/random_sentences.csv"
-pickle_file = "data/df.pkl"
+curr_dir = os.path.dirname(os.path.realpath(__file__))
+source_file = curr_dir + "/data/random_sentences.csv"
+pickle_file = curr_dir + "/data/df.pkl"
 
 
 def read_file(file_path):

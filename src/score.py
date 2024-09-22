@@ -4,7 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 import argparse
 
-from vectorize_sentences import vectorize, pickle_file
+from .vectorize_sentences import vectorize, pickle_file
 
 metrics = ['cosine', 'jaccard', 'manhattan']
 
@@ -14,6 +14,8 @@ def check_file_exists(file_path):
 
     if not os.path.exists(file_path):
         raise FileNotFoundError(f"File `{file_path}` not found")
+
+    return True
 
 
 def load_data(file_path):
@@ -69,13 +71,13 @@ def compare_vectors(vectors, df, metric='cosine'):
     return df
 
 
-def display_results(df, limit):
+def display_results(df, limit=3):
     """ Display the results in CLI """
 
-    print(df.head(limit))
+    return df.head(limit)
 
 
-def plot_results(df, limit, file_path):
+def plot_results(df, limit, file_path, metric='cosine'):
     """ Plot the results """
 
     # Sort the DataFrame by similarity and take the top 5 most similar vectors
@@ -88,7 +90,7 @@ def plot_results(df, limit, file_path):
 
     # Add titles and labels
     plt.title(
-        'Top Cosine Similarities between Input Vector and Reference', fontsize=16)
+        'Top %s Similarities between Input Vector and Reference' % (metric.capitalize()), fontsize=16)
     plt.xlabel('References', fontsize=14)
     plt.ylabel('Cosine Similarity', fontsize=14)
 
@@ -111,11 +113,11 @@ def main(text, limit, plot_file_path, metric):
     df = compare_vectors(vectors, df, metric)
 
     # Display results
-    display_results(df, limit)
+    print(display_results(df, limit))
 
     # Plot results
     if plot_file_path:
-        plot_results(df, limit, plot_file_path)
+        plot_results(df, limit, plot_file_path, metric)
 
 
 if __name__ == "__main__":

@@ -10,5 +10,5 @@ venv/
 __pycache__/
 
 # Auto-generated files
-data/similarity_plot.png
-data/df.pkl
+src/data/similarity_plot.png
+src/data/df.pkl
