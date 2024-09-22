@@ -20,7 +20,7 @@ This project demonstrates how to calculate similarity scores between sentences u
 ### Vectorize the Dataset
 
 ```bash
-$ python3 vectorize_sentences.py 
+$ python3 -m src.vectorize_sentences
   RowID                                               Text Metadata                                            vectors
 0  id-1  It’s four a.m. and both of us would rather be ...     md-1  [-0.63189316, -0.32086504, -0.19091547, 0.1911...
 1  id-2            This is when it starts getting serious.     md-2  [-0.50462574, -0.13868034, 0.03731264, -0.2865...
@@ -34,7 +34,7 @@ DataFrame saved to `data/df.pkl`
 ### Perform a Similarity Search
 
 ```bash
-$ python3 score.py -t "I don't like snow" -l 3 -m cosine
+$ python3 -m src.score -t "I don't like snow" -l 3 -m cosine
     RowID                       Text Metadata                                            vectors  Similarity
 21  id-22         I don't like rain.    md-22  [-0.41069135, -0.036516473, 0.1366242, 0.07364...    0.976623
 46  id-47  I have 60 pairs of shoes.    md-47  [-0.5448569, 0.07107707, 0.35270178, -0.047913...    0.915285
@@ -45,5 +45,5 @@ You can also generate a scatter plot to visualize the similarity scores:
 
 ```bash
 # Optionally, you can also generate a scatter plot:
-$ python3 score.py -t "I cook lunch" -l 20 -f "data/similarity_plot.png"
+$ python3 -m src.score -t "I cook lunch" -l 20 -f "src/data/similarity_plot.png"
 ```
