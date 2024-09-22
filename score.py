@@ -6,6 +6,8 @@ import argparse
 
 from vectorize_sentences import vectorize, pickle_file
 
+metrics = ['cosine', 'jaccard', 'manhattan']
+
 
 def check_file_exists(file_path):
     """ Check if the file exists """
@@ -30,13 +32,15 @@ def cosine_similarity(v1, v2):
 
     return dot_product / (norm_v1 * norm_v2)
 
-def jaccard_similarity(v1,v2):
+
+def jaccard_similarity(v1, v2):
     """ Compute the Jaccard similarity between two vectors """
     set1 = set(v1)
     set2 = set(v2)
     intersection = len(set1.intersection(set2))
     union = len(set1.union(set2))
     return intersection / union
+
 
 def manhattan_similarity(v1, v2):
     """ Compute the Manhattan similarity between two vectors """
@@ -45,14 +49,18 @@ def manhattan_similarity(v1, v2):
     return 1 - (distance / max_distance)
 
 
-
-def compare_vectors(vectors, df):
+def compare_vectors(vectors, df, metric='cosine'):
     """ Compare vectors with the vectors from the dataframe and keep top X """
 
     similarities = []
 
     for idx, vector in enumerate(df['vectors']):
-        similarity = cosine_similarity(vectors, vector)
+        if metric == 'cosine':
+            similarity = cosine_similarity(vectors, vector)
+        elif metric == 'jaccard':
+            similarity = jaccard_similarity(vectors, vector)
+        elif metric == 'manhattan':
+            similarity = manhattan_similarity(vectors, vector)
         similarities.append(similarity)
 
     df['Similarity'] = similarities
@@ -93,14 +101,14 @@ def plot_results(df, limit, file_path):
     plt.savefig(file_path)
 
 
-def main(text, limit, plot_file_path):
+def main(text, limit, plot_file_path, metric):
     vectors = vectorize(text)
 
     # Load the DataFrame
     df = load_data(pickle_file)
 
     # Compare vectors
-    df = compare_vectors(vectors, df)
+    df = compare_vectors(vectors, df, metric)
 
     # Display results
     display_results(df, limit)
@@ -119,13 +127,22 @@ if __name__ == "__main__":
                         help="Number of similarities to display")
     parser.add_argument("--plot_file", "-f", type=str,
                         help="File path to save the plot")
+    parser.add_argument("--metric", "-m", type=str, default="cosine",
+                        help="Similarity metric to use (%s)" % ', '.join(metrics))
+
     args = parser.parse_args()
 
     text = args.text
     limit = args.limit
     plot_file_path = args.plot_file
+    metric = args.metric
+
+    # Check if the metric is valid
+    if metric not in metrics:
+        raise ValueError(
+            f"Invalid metric: {metric}. Please choose one of {metrics}")
 
     # Check Pickle file exists
     check_file_exists(pickle_file)
 
-    main(text, limit, plot_file_path)
+    main(text, limit, plot_file_path, metric)
